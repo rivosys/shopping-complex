@@ -1,24 +1,15 @@
-import type { NextAuthConfig } from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
+import type { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import { users } from '@/data/users';
 import { User } from '@/types';
 
-export const authConfig: NextAuthConfig = {
+export const authConfig: NextAuthOptions = {
   pages: {
     signIn: '/(auth)/login',
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnProtectedRoute = nextUrl.pathname.startsWith('/cart') || 
-                                nextUrl.pathname.startsWith('/profile');
-      
-      if (isOnProtectedRoute) {
-        if (isLoggedIn) return true;
-        return false;
-      }
-      
+    signIn({ user }) {
       return true;
     },
     jwt({ token, user }) {
@@ -37,8 +28,14 @@ export const authConfig: NextAuthConfig = {
     },
   },
   providers: [
-    Credentials({
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" }
+      },
       async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
         const { email, password } = credentials as {
           email: string;
           password: string;

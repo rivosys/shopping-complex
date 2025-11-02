@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
 import { FiMenu, FiShoppingCart, FiUser, FiHeart, FiSearch, FiLogOut } from 'react-icons/fi';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { categories } from '@/data/categories';
@@ -15,7 +15,7 @@ const menuCategories = [
   ...categories.slice(0, 5)
 ];
 
-export default function Navbar() {
+function NavigationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session } = useSession();
@@ -322,5 +322,13 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </header>
+  );
+}
+
+export default function Navbar() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NavigationContent />
+    </Suspense>
   );
 }
