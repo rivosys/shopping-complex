@@ -86,7 +86,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     // If user is not logged in, redirect to login
     if (status === 'unauthenticated') {
-      router.push('/(auth)/login?redirect=/checkout');
+      router.push('/login?redirect=/checkout');
     }
     // If cart is empty, redirect to cart
     if (cart.items.length === 0) {
@@ -115,7 +115,7 @@ export default function CheckoutPage() {
           <div className="space-x-4">
             <Button
               variant="primary"
-              onClick={() => router.push('/(auth)/login?redirect=/checkout')}
+              onClick={() => router.push('/login?redirect=/checkout')}
             >
               Log In
             </Button>
@@ -255,7 +255,7 @@ export default function CheckoutPage() {
         // Create order for Cash on Delivery
         await createOrder();
         alert('Order placed successfully! You can pay on delivery.');
-        router.push('/(shop)/checkout/success');
+        router.push('/checkout/success');
         return;
       }
 

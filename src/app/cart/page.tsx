@@ -46,12 +46,12 @@ export default function CartPage() {
     // Check if user is logged in
     if (!session) {
       // Redirect to login with return URL
-      router.push('/(auth)/login?redirect=/cart');
+      router.push('/login?redirect=/cart');
       setIsCheckingOut(false);
       return;
     }
     // If logged in, proceed to checkout
-    router.push('/(shop)/checkout');
+    router.push('/checkout');
     setIsCheckingOut(false);
   };
 

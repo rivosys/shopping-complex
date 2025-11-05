@@ -6,7 +6,9 @@ import { User } from '@/types';
 
 export const authConfig: NextAuthOptions = {
   pages: {
-    signIn: '/(auth)/login',
+    signIn: '/login',
+    error: '/login',
+    signOut: '/'
   },
   callbacks: {
     signIn({ user }) {
