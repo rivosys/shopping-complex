@@ -7,6 +7,7 @@ const nextConfig = {
     ignoreDuringBuilds: true
   },
   images: {
+    domains: ['images.unsplash.com'],
     unoptimized: true,
     remotePatterns: [
       {
@@ -16,7 +17,7 @@ const nextConfig = {
     ]
   },
   distDir: '.next',
-  output: 'standalone',
+  output: 'export',
   experimental: {
     appDir: true,
     optimizePackageImports: ['@mui/icons-material', '@mui/material']
