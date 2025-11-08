@@ -1,4 +1,4 @@
-import { Order } from '@/types';
+import { Order } from '@/features/cart/types';
 
 export const orders: Order[] = [
   {

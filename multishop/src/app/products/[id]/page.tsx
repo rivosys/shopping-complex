@@ -4,7 +4,7 @@ import { useState, use } from 'react';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '@/lib/hooks/reduxHooks';
-import { addItem, toggleCart } from '@/store/features/cartSlice';
+import { addToCart, toggleCart } from '@/features/cart/cartSlice';
 import Layout from '@/components/layout/Layout';
 import { products } from '@/data/products';
 import Button from '@/components/ui/Button';
@@ -40,7 +40,7 @@ export default function ProductPage({ params }: ProductPageProps) {
     }
 
     try {
-      dispatch(addItem({ productId: product.id, quantity }));
+      dispatch(addToCart({ productId: product.id, quantity }));
       toast.success(`Added ${quantity} ${product.name} to cart!`);
       dispatch(toggleCart()); // Open the cart drawer
     } catch (error) {

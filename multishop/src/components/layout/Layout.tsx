@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ReactNode, useState, useEffect } from 'react';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useAppSelector } from '@/lib/hooks/reduxHooks';
-import { selectCartItemCount } from '@/store/features/cartSlice';
+import { selectCartItemCount } from '@/features/cart/cartSlice';
 
 interface LayoutProps {
   children: ReactNode;

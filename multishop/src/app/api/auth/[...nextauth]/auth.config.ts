@@ -2,7 +2,7 @@ import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import { users } from '@/data/users';
-import { User } from '@/types';
+import { User } from '@/features/auth/types';
 
 export const authConfig: NextAuthOptions = {
   pages: {

@@ -25,10 +25,8 @@ function NavigationContent() {
   const [mounted, setMounted] = useState(false);
   
   // Get cart total items from Redux store
-  const cartItems = useAppSelector((state) => state.cart.items);
-  const totalItems = useMemo(() => 
-    cartItems.reduce((total, item) => total + item.quantity, 0),
-    [cartItems]
+  const totalItems = useAppSelector((state) => 
+    state.cart.items.reduce((total, item) => total + item.quantity, 0)
   );
   
   useEffect(() => {

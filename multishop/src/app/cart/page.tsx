@@ -4,17 +4,27 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Layout from '@/components/layout/Layout';
+import AuthCheck from '@/components/auth/AuthCheck';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks/reduxHooks';
-import { removeItem, updateQuantity, clearCart } from '@/store/features/cartSlice';
+import { removeFromCart, updateQuantity, clearCart } from '@/features/cart/cartSlice';
 import { products } from '@/data/products';
 import Button from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
-import { Product, CartItem } from '@/types';
+import { Product } from '@/features/products/types';
+import { CartItem } from '@/features/cart/types';
 import { CartProduct } from '@/types/cart';
 import Image from 'next/image';
 import RelatedProducts from '@/components/cart/RelatedProducts';
 
 export default function CartPage() {
+  return (
+    <AuthCheck>
+      <CartPageContent />
+    </AuthCheck>
+  );
+}
+
+function CartPageContent() {
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector((state) => state.cart.items);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -31,7 +41,7 @@ export default function CartPage() {
 
   const handleUpdateQuantity = (productId: string, quantity: number) => {
     if (quantity < 1) {
-      dispatch(removeItem(productId));
+      dispatch(removeFromCart(productId));
     } else {
       dispatch(updateQuantity({ productId, quantity }));
     }
@@ -43,15 +53,20 @@ export default function CartPage() {
 
   const handleCheckout = async () => {
     setIsCheckingOut(true);
-    // Check if user is logged in
-    if (!session) {
-      // Redirect to login with return URL
-      router.push('/login?redirect=/cart');
+    try {
+      // Check if user is logged in
+      if (!session) {
+        // Redirect to login with return URL
+        router.push('/auth/login?redirect=/cart');
+        return;
+      }
+      // If logged in, proceed to checkout
+      router.push('/checkout');
+    } catch (error) {
+      toast.error('Error proceeding to checkout');
+    } finally {
       setIsCheckingOut(false);
-      return;
     }
-    // If logged in, proceed to checkout
-    router.push('/checkout');
     setIsCheckingOut(false);
   };
 

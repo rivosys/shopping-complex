@@ -2,14 +2,13 @@
 
 import { useSelector } from 'react-redux';
 import type { RootState } from '@/store/store';
-import { CartProduct } from '@/types/cart';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { products } from '@/data/products';
-import { CartItem } from '@/types';
+import { CartItem } from '@/features/cart/types';
 import { useSession } from 'next-auth/react';
-import type { User } from 'next-auth';
+import { PaymentMethod, PaymentOption, ExtendedUser } from '@/features/checkout/types';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import Layout from '@/components/layout/Layout';
@@ -20,27 +19,8 @@ declare global {
   }
 }
 
-// Define the structure of a user's address
-interface UserAddress {
-  street?: string;
-  city?: string;
-  postalCode?: string;
-  country?: string;
-}
-
-// Extend the base User type with our custom fields
-interface ExtendedUser extends User {
-  address?: UserAddress;
-}
-
-type PaymentMethod = 'online' | 'cod';
-
-interface PaymentOption {
-  id: PaymentMethod;
-  title: string;
-  description: string;
-  icon: string;
-  gateway: 'razorpay' | 'cod';
+interface CartProduct extends CartItem {
+  product: any;
 }
 
 const paymentOptions: PaymentOption[] = [
@@ -86,7 +66,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     // If user is not logged in, redirect to login
     if (status === 'unauthenticated') {
-      router.push('/login?redirect=/checkout');
+      router.push('/(auth)/login?redirect=/(shop)/checkout');
     }
     // If cart is empty, redirect to cart
     if (cart.items.length === 0) {
@@ -115,13 +95,13 @@ export default function CheckoutPage() {
           <div className="space-x-4">
             <Button
               variant="primary"
-              onClick={() => router.push('/login?redirect=/checkout')}
+              onClick={() => router.push('/(auth)/login?redirect=/(shop)/checkout')}
             >
               Log In
             </Button>
             <Button
               variant="outline"
-              onClick={() => router.push('/register?redirect=/checkout')}
+              onClick={() => router.push('/(auth)/register?redirect=/(shop)/checkout')}
             >
               Register
             </Button>
@@ -255,7 +235,7 @@ export default function CheckoutPage() {
         // Create order for Cash on Delivery
         await createOrder();
         alert('Order placed successfully! You can pay on delivery.');
-        router.push('/checkout/success');
+        router.push('/(shop)/checkout/success');
         return;
       }
 

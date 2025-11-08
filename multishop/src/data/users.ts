@@ -1,4 +1,4 @@
-import { User } from '@/types';
+import { User } from '@/features/auth/types';
 
 interface UserWithPassword extends User {
   hashedPassword: string;

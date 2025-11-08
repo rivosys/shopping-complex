@@ -4,9 +4,9 @@ import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { X, Plus, Minus, Trash2, ShoppingCart } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks/reduxHooks';
-import { selectCartItems, selectCartIsOpen, selectCartItemCount, removeItem, updateQuantity, toggleCart } from '@/store/features/cartSlice';
+import { selectCartItems, selectCartIsOpen, selectCartItemCount, removeFromCart, updateQuantity, toggleCart } from '@/features/cart/cartSlice';
 import { products } from '@/data/products';
-import { Product } from '@/types';
+import { Product } from '@/features/products/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -41,7 +41,7 @@ export default function CartDrawer() {
   };
 
   const handleRemoveItem = (productId: string) => {
-    dispatch(removeItem(productId));
+    dispatch(removeFromCart(productId));
   };
 
   return (

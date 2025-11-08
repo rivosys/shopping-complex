@@ -7,7 +7,7 @@ import Layout from '@/components/layout/Layout';
 import ProductCard from '@/components/ui/ProductCard';
 import { products } from '@/data/products';
 import { useAppDispatch } from '@/lib/hooks/reduxHooks';
-import { addItem } from '@/store/features/cartSlice';
+import { addToCart } from '@/features/cart/cartSlice';
 import Select from '@/components/ui/Select';
 import Input from '@/components/ui/Input';
 import { useSearchParams } from 'next/navigation';

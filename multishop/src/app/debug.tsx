@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppSelector } from '@/lib/hooks/reduxHooks';
-import { selectCartItems, selectCartItemCount } from '@/store/features/cartSlice';
+import { selectCartItems, selectCartItemCount } from '@/features/cart/cartSlice';
 
 export default function DebugCart() {
   const items = useAppSelector(selectCartItems);

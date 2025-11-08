@@ -2,7 +2,7 @@
 
 import { ShoppingCart } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks/reduxHooks';
-import { selectCartItemCount, toggleCart } from '@/store/features/cartSlice';
+import { selectCartItemCount, toggleCart } from '@/features/cart/cartSlice';
 import { useEffect, useState } from 'react';
 
 export default function CartIcon() {

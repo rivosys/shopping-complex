@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product } from '@/types';
+import { Product } from '@/features/products/types';
 import { useAppDispatch } from '@/lib/hooks/reduxHooks';
-import { addItem, toggleCart } from '@/store/features/cartSlice';
+import { addToCart, toggleCart } from '@/features/cart/cartSlice';
 import { toast } from 'react-toastify';
 import Button from './Button';
 
@@ -25,7 +25,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     }
 
     try {
-      dispatch(addItem({ productId: product.id, quantity: 1 }));
+      dispatch(addToCart({ productId: product.id, quantity: 1 }));
       toast.success(`Added ${product.name} to cart!`);
       dispatch(toggleCart());
     } catch (error) {

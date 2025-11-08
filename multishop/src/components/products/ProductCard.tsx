@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Star, ShoppingCart } from 'lucide-react';
 import { useAppDispatch } from '@/lib/hooks/reduxHooks';
-import { addItem, toggleCart } from '@/store/features/cartSlice';
+import { addToCart, toggleCart } from '@/features/cart/cartSlice';
 import { toast } from 'react-toastify';
 import Badge from '@/components/ui/Badge';
 
@@ -30,7 +30,7 @@ export default function ProductCard({ id, name, description, price, image, ratin
     }
 
     try {
-      dispatch(addItem({ productId: id, quantity: 1 }));
+      dispatch(addToCart({ productId: id, quantity: 1 }));
       toast.success(`Added ${name} to cart!`);
       dispatch(toggleCart());
     } catch (error) {
