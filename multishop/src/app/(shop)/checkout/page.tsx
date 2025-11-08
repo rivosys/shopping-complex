@@ -252,7 +252,7 @@ export default function CheckoutPage() {
   };
 
   // Get user's registered address from session
-  const userAddress = (session?.user as ExtendedUser)?.address || {};
+  const userAddress = (session?.user as ExtendedUser)?.address;
 
   return (
     <Layout>
@@ -269,11 +269,17 @@ export default function CheckoutPage() {
                 <div className="p-4 border rounded bg-gray-50">
                   <p className="font-medium">{session?.user?.name}</p>
                   <p>{session?.user?.email}</p>
-                  <p className="mt-2">
-                    {userAddress.street}<br />
-                    {userAddress.city}, {userAddress.postalCode}<br />
-                    {userAddress.country}
-                  </p>
+                  {userAddress && userAddress.street ? (
+                    <p className="mt-2">
+                      {userAddress.street}<br />
+                      {userAddress.city}, {userAddress.zipCode}<br />
+                      {userAddress.country}
+                    </p>
+                  ) : (
+                    <p className="mt-2 text-gray-500">
+                      No address found. Please add a delivery address.
+                    </p>
+                  )}
                   <Button 
                     variant="outline"
                     className="mt-4"

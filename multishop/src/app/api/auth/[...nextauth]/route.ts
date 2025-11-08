@@ -1,6 +1,7 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
+import NextAuth, { type NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthService } from '@/features/auth/service';
+import { type JWT } from 'next-auth/jwt';
 
 export const authOptions: NextAuthOptions = {
   debug: process.env.NODE_ENV === 'development',
@@ -32,14 +33,14 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: any; user: User | null }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
       }
       return token;
     },
-    async session({ session, token }: { session: any; token: any }) {
+    async session({ session, token }: { session: any; token: JWT }) {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as 'user' | 'admin';

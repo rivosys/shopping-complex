@@ -1,13 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 
-export default function LoginPage() {
+export default function LoginPageWrapper() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <LoginPage />
+    </Suspense>
+  );
+}
+
+function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);

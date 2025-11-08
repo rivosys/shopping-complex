@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Layout from '@/components/layout/Layout';
@@ -62,12 +64,15 @@ function CartPageContent() {
       }
       // If logged in, proceed to checkout
       router.push('/checkout');
-    } catch (error) {
-      toast.error('Error proceeding to checkout');
+    } catch (error: unknown) {
+      console.error('Checkout error:', error);
+      toast.error('Error proceeding to checkout', {
+        position: "bottom-right",
+        autoClose: 3000
+      });
     } finally {
       setIsCheckingOut(false);
     }
-    setIsCheckingOut(false);
   };
 
   if (cartItems.length === 0) {
@@ -127,7 +132,7 @@ function CartPageContent() {
                     <div className="text-right">
                       <p className="font-medium">${(product.price * quantity).toFixed(2)}</p>
                       <button
-                        onClick={() => dispatch(removeItem(product.id))}
+                        onClick={() => dispatch(removeFromCart(product.id))}
                         className="text-red-600 text-sm mt-2 hover:text-red-700"
                       >
                         Remove

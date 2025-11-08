@@ -36,7 +36,7 @@ export default function CartDrawer() {
     if (newQuantity > 0) {
       dispatch(updateQuantity({ productId, quantity: newQuantity }));
     } else {
-      dispatch(removeItem(productId));
+      dispatch(removeFromCart(productId));
     }
   };
 
